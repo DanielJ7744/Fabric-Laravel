@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for XDebug",
+      "type": "php",
+      "request": "launch",
+      "hostname": "localhost",
+      "port": 9000,
+      "pathMappings": {
+        "/var/www": "${workspaceRoot}"
+      },
+      "ignore": ["**/vendor/**/*.php"]
+    }
+  ]
+}

@@ -1,0 +1,478 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Optic Generated OpenAPI",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/{companies}": {
+      "parameters": [
+        {
+          "name": "companies",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "links": {
+                            "type": "object",
+                            "properties": {
+                              "self": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "self"
+                            ]
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "attributes": {
+                            "type": "object",
+                            "properties": {
+                              "updated-at": {
+                                "nullable": true
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "created-at": {
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "updated-at",
+                              "name",
+                              "created-at"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "links",
+                          "id",
+                          "attributes"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "status"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "errors"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "links": {
+                            "type": "object",
+                            "properties": {
+                              "self": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "self"
+                            ]
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "attributes": {
+                            "type": "object",
+                            "properties": {
+                              "updated-at": {
+                                "nullable": true
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "created-at": {
+                                "nullable": true
+                              }
+                            },
+                            "required": [
+                              "updated-at",
+                              "name",
+                              "created-at"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "links",
+                          "id",
+                          "attributes"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "status"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "errors"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/companies/{companyId}": {
+      "parameters": [
+        {
+          "name": "companyId",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "links": {
+                          "type": "object",
+                          "properties": {
+                            "self": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "self"
+                          ]
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "properties": {
+                            "updated-at": {
+                              "nullable": true
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "created-at": {
+                              "nullable": true
+                            }
+                          },
+                          "required": [
+                            "updated-at",
+                            "name",
+                            "created-at"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "links",
+                        "id",
+                        "attributes"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/systems/{systemId}": {
+      "parameters": [
+        {
+          "name": "systemId",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "links": {
+                          "type": "object",
+                          "properties": {
+                            "self": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "self"
+                          ]
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "properties": {
+                            "website": {
+                              "type": "string"
+                            },
+                            "updated-at": {
+                              "nullable": true
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "created-at": {
+                              "nullable": true
+                            },
+                            "active": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "website",
+                            "updated-at",
+                            "name",
+                            "description",
+                            "created-at",
+                            "active"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "links",
+                        "id",
+                        "attributes"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/systems": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          },
+                          "links": {
+                            "type": "object",
+                            "properties": {
+                              "self": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "self"
+                            ]
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "attributes": {
+                            "type": "object",
+                            "properties": {
+                              "website": {
+                                "type": "string"
+                              },
+                              "updated-at": {
+                                "nullable": true
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "created-at": {
+                                "nullable": true
+                              },
+                              "active": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "website",
+                              "updated-at",
+                              "name",
+                              "description",
+                              "created-at",
+                              "active"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "links",
+                          "id",
+                          "attributes"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

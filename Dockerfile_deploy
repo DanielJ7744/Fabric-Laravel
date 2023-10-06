@@ -1,0 +1,55 @@
+# ---------------------------
+FROM composer:2.1 as composer
+
+#----------------------------
+FROM php:7.4.29-fpm-alpine
+
+# LIST DEPS
+ENV TEMP_DEPS autoconf g++ make imagemagick-dev zlib-dev libpng-dev \
+    freetype-dev libjpeg-turbo-dev zip unzip g++ autoconf make
+
+ENV DEPS curl ca-certificates git supervisor imagemagick libzip-dev libxml2 libxml2-dev
+ENV DOCKER_EXT_INSTALL \
+    pdo \
+	pdo_mysql \
+	exif \
+	pcntl \
+	bcmath \
+	gd \
+	zip \
+	soap 
+
+# INSTALL DEPS
+RUN apk add --update --no-cache --virtual build-deps ${TEMP_DEPS} && \
+	apk add --update --no-cache --virtual deps ${DEPS}
+RUN pecl install imagick-3.4.4 && \ 
+    docker-php-ext-enable imagick && \
+    docker-php-ext-configure bcmath --enable-bcmath && \
+    docker-php-ext-configure gd && \
+    docker-php-ext-install ${DOCKER_EXT_INSTALL}
+
+# Tidy Dependencies
+RUN apk del build-deps && \
+	rm -rf /var/lib/apt/lists/* \
+	/var/cache/apk/* \
+	/usr/share/man \
+	/tmp/*
+
+# APP PHASE
+# Set working directory
+WORKDIR /app
+
+# Copy Files
+COPY . /app/
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# Composer Install
+RUN composer install \
+	# --no-dev \
+	--no-interaction \
+	--no-plugins \
+	--no-scripts \
+	--prefer-dist
+
+RUN chmod -R 777 /app/storage
+

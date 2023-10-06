@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@useoptic/cli": "^10.1.0"
+  }
+}

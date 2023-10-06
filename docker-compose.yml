@@ -1,0 +1,84 @@
+version: '3.7'
+services:
+  app:
+    build:
+      args:
+        user: fabric
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: fabric
+    container_name: fabric-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    environment:
+      WEB_DOCUMENT_ROOT: /var/www/public
+      PHP_IDE_CONFIG: serverName=docker
+      # on linux define XDEBUG_REMOTE_HOST=192.168.x.x in .env
+      XDEBUG_CONFIG: client_host=${XDEBUG_REMOTE_HOST:-host.docker.internal} client_port=9092 start_with_request=yes
+      XDEBUG_MODE: debug,develop
+    volumes:
+      - ./:/var/www:cached
+      - ./vendor:/var/www/vendor:cached
+      - ./storage:/var/www/storage:delegated
+    networks:
+      - default
+      - patchworks
+
+  db:
+    image: mysql:8
+    platform: linux/x86_64
+    container_name: fabric-db
+    restart: unless-stopped
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    command: --sql-require-primary-key=OFF --default-authentication-plugin=mysql_native_password
+    volumes:
+      - 'db-data:/var/lib/sql'
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d:cached
+
+  # Handles PHP / runs the app
+  # Receives the forwarded request from Optic
+  nginx-app:
+    image: nginx:alpine
+    container_name: fabric-nginx-app
+    restart: unless-stopped
+    # Ports are removed as this container is not accessed directly
+    ports:
+      - 6121:80
+    volumes:
+      - ./:/var/www:cached
+      - ./vendor:/var/www/vendor:cached
+      - ./docker-compose/nginx-app:/etc/nginx/conf.d/:cached
+    depends_on:
+      - db
+    networks:
+      - default
+      - patchworks
+
+  redis:
+    image: redis:6.2.1-alpine
+    platform: linux/x86_64
+    container_name: fabric-redis
+    restart: unless-stopped
+
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+      - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  patchworks:
+    name: patchworks

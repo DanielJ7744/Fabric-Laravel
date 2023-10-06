@@ -1,0 +1,12 @@
+on: pull_request
+jobs:
+  changelog:
+    name: API changelog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: opticdev/optic-changelog@main
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          OPTIC_API_KEY: ${{secrets.OPTIC_API_KEY}}
+          OPTIC_SPEC_PATH: optic/optic/.optic/api/specification.json

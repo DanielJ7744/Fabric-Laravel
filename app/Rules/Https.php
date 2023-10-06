@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Rules;
+
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Str;
+
+class Https implements Rule
+{
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     *
+     * @return bool
+     */
+    public function passes($attribute, $value): bool
+    {
+        return Str::startsWith(Str::lower($value), 'https://');
+    }
+
+    public function message(): string
+    {
+        return 'The :attribute must use HTTPS.';
+    }
+}

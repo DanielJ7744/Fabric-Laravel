@@ -1,0 +1,58 @@
+name: Patchworks-Git-to-DockerHub
+on: 
+  push:
+    branches:
+      - master
+      - staging
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Setup PHP
+      id: setup-php
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+
+    - name: Run Composer
+      shell: bash
+      run: |
+        composer install
+      id: run_composer
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: DockerHub Login
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+    - name: Extract metadata for Docker on Build
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: gopatchworks/fabric
+        tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=sha,format=long,prefix={{branch}}-
+
+    # Push on Master/Staging/Develop branch only
+    - name: Build and Push
+      id: docker_build_and_push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        file: Dockerfile_deploy
+        tags: ${{ steps.meta.outputs.tags }}
